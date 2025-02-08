@@ -1,10 +1,12 @@
 package com.hzlucasf.waifu.service;
 
+import com.hzlucasf.waifu.exception.AnimeNotFoundException;
 import com.hzlucasf.waifu.model.Anime;
 import com.hzlucasf.waifu.repository.AnimeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class AnimeService {
@@ -16,5 +18,15 @@ public class AnimeService {
 
     public List<Anime> findAll() {
         return animeRepository.findAll();
+    }
+
+    public Anime findById(UUID id) {
+        var optionalAnime = animeRepository.findById(id);
+
+        if (optionalAnime.isEmpty()) {
+            throw new AnimeNotFoundException("anime not found");
+        }
+
+        return optionalAnime.get();
     }
 }
