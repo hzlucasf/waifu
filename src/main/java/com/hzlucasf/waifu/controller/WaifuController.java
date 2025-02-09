@@ -2,15 +2,15 @@ package com.hzlucasf.waifu.controller;
 
 import com.hzlucasf.waifu.model.Waifu;
 import com.hzlucasf.waifu.service.WaifuService;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -27,8 +27,17 @@ public class WaifuController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Waifu>> findAll() {
-        return ResponseEntity.status(HttpStatus.OK).body(waifuService.findAll());
+    public ResponseEntity<PagedModel<EntityModel<Waifu>>> findAll(
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "0") Integer size
+    ) {
+        var pageable = (Pageable) PageRequest.of(page, size);
+
+        var waifuPage = waifuService.findAll(pageable);
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                pagedResourcesAssembler.toModel(waifuPage)
+        );
     }
 
     @GetMapping("/{id}")
