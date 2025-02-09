@@ -3,6 +3,8 @@ package com.hzlucasf.waifu.service;
 import com.hzlucasf.waifu.exception.AnimeNotFoundException;
 import com.hzlucasf.waifu.model.Anime;
 import com.hzlucasf.waifu.repository.AnimeRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +20,10 @@ public class AnimeService {
 
     public List<Anime> findAll() {
         return animeRepository.findAll();
+    }
+
+    public Page<Anime> findAll(Pageable pageable) {
+        return animeRepository.findAll(pageable);
     }
 
     public Anime findById(UUID id) {
