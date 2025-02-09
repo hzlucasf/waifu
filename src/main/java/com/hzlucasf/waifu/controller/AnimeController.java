@@ -2,6 +2,7 @@ package com.hzlucasf.waifu.controller;
 
 import com.hzlucasf.waifu.model.Anime;
 import com.hzlucasf.waifu.service.AnimeService;
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +18,12 @@ import java.util.UUID;
 public class AnimeController {
     private final AnimeService animeService;
 
-    public AnimeController(AnimeService animeService) {
+    private final PagedResourcesAssembler<Anime> pagedResourcesAssembler;
+
+    public AnimeController(AnimeService animeService, PagedResourcesAssembler<Anime> pagedResourcesAssembler) {
         this.animeService = animeService;
+
+        this.pagedResourcesAssembler = pagedResourcesAssembler;
     }
 
     @GetMapping
