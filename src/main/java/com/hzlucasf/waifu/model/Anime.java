@@ -3,12 +3,13 @@ package com.hzlucasf.waifu.model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Set;
 import java.util.UUID;
 
 @Entity
 @Table
-public class Anime {
+public class Anime implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
